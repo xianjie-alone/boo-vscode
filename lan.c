@@ -10,3 +10,8 @@ int main(){
     printf("%s","hi");
     return 0;
 }
+
+int main(){
+    
+    return 0;
+}
