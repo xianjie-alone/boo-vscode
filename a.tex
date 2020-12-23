@@ -1,0 +1,142 @@
+\documentclass{ctexart}
+
+% 引入easyfloats浮动体排版宏包
+\usepackage[longtable]{easyfloats}
+%% 设置easyfloats浮动体宏包
+\objectset[table]{env=tabular, placement=htb}
+\objectset[figure]{placement=htb}
+
+\usepackage{siunitx}
+\newcommand\pminfty{\multicolumn1r{$\pm\infty$}}
+
+% 超链接宏包
+\usepackage{hyperref}
+
+% 最小工作示例宏包(插图)
+\usepackage{mwe}
+
+\title{使用\texttt{easyfloats}宏包排版浮动体}
+\author{耿楠 \thanks{西北农林科技大学信息工程学院}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{说明}
+由于\verb|easyfloats|是一个新的宏包，如果在你的发行版中还未包含该
+宏包，则可以在
+\href{https://gitlab.com/erzo/latex-easyfloats}{https://gitlab.com/erzo/latex-easyfloats}
+网站下载该宏包，并置于当前工作目录中以使用该宏包。
+\section{单个浮动体}
+\subsection{表格}
+可以使用\verb|tableobject|环境排版表格浮动体，通
+过\verb|<key>=<value>|设置排版参数，如表\ref{tab:test01}所示。
+\begin{tableobject}{caption=这是表格标题,
+    label=tab:test01,
+    placement=htb,    
+    env=tabular}{cl}
+  \toprule
+  转义码 & 含义          \\
+  \midrule
+  0       & Escape Character \\
+  1       & Begin Group      \\
+  2       & End Group        \\
+  \vdots  & \quad \vdots     \\
+  \bottomrule
+\end{tableobject}
+
+\subsection{插图}
+可以使用\verb|\includegraphicobject|命令排版表格浮动体，通
+过\verb|<key>=<value>|设置排版参数，如图\ref{fig:example}所
+示。
+\includegraphicobject[%
+  label   = fig:example,
+  caption = 示例插图,
+  details = 致谢\href{https://ctan.org}{www.ctan.org}.,
+  graphic width = .5\linewidth,
+]{example-image}
+
+\section{子浮动体}
+可以使用\verb|subobject|环境实现子浮动体排版。
+\subsection{子表格}
+可以使用\verb|tableobject|环境结合\verb|subobject|环境实现子表格浮动体排版，通
+过\verb|<key>=<value>|设置排版参数，如图\ref{tab:tabs}所示。
+\begin{tableobject}{contains subobjects,
+                caption = 分为子表的表格浮动体,
+                label = tab:tabs,
+                subobject linewidth = .45\linewidth,
+        }
+        \begin{subobject}{caption=Abc \& 123}{rl}
+                \toprule
+                abc & 123 \\
+                de  & 45  \\
+                f   & 6   \\
+                \bottomrule
+        \end{subobject}
+        \begin{subobject}{caption=123 \& abc}{lr}
+                \toprule
+                123 & abc \\
+                45  & de  \\
+                6   & f   \\
+                \bottomrule
+        \end{subobject}
+\end{tableobject}
+      
+\subsection{子图}
+可以使用\verb|figureobject|环境结合\verb|includegraphicsubobject|命令
+实现子图浮动体排版，通过\verb|<key>=<value>|设置排版参数，如图\ref{fig:figs}所示。
+\begin{figureobject}{sub,
+    label   = fig:figs,
+    caption = 带有子图的插图浮动体,
+    graphic width = .5\linewidth,
+    }
+    \includegraphicsubobject[caption = 子图1, label = fig1]{example-image-a}
+    \includegraphicsubobject[caption = 子图2, label = fig2]{example-image-b}
+\end{figureobject}
+
+\section{长表格}
+可以通过为\verb|easyfloats|宏包引入\verb|[longtable]|参数使用
+\verb|longtable|宏包实现长表格浮动体浮动体排版，通
+过\verb|<key>=<value>|设置排版参数，如表\ref{tab:trifun}所示。
+\begin{tableobject}{%
+        caption = Trigonometric functions,
+        label = tab:trifun,
+        env=longtable,
+        arg = {
+                S[table-format=2.0, table-space-text-post=\si{\degree}] <{\si{\degree}} !\quad
+                *2{S[table-format=+1.2]}
+                S[table-format=+4.2]
+        },
+        table head = \multicolumn1{c!\quad}{$x$} & $\sin x$ & $\cos x$ & $\tan x$,
+}
+
+          0  &   0.00 &  1.00 &   0.00 \\
+          5  &   0.09 &  1.00 &   0.09 \\
+         10  &   0.17 &  0.98 &   0.18 \\
+         15  &   0.26 &  0.97 &   0.27 \\
+         20  &   0.34 &  0.94 &   0.36 \\
+         25  &   0.42 &  0.91 &   0.47 \\
+         30  &   0.50 &  0.87 &   0.58 \\
+         35  &   0.57 &  0.82 &   0.70 \\
+         40  &   0.64 &  0.77 &   0.84 \\
+         45  &   0.71 &  0.71 &   1.00 \\
+         50  &   0.77 &  0.64 &   1.19 \\
+         55  &   0.82 &  0.57 &   1.43 \\
+         60  &   0.87 &  0.50 &   1.73 \\
+         65  &   0.91 &  0.42 &   2.14 \\
+         70  &   0.94 &  0.34 &   2.75 \\
+         75  &   0.97 &  0.26 &   3.73 \\
+         80  &   0.98 &  0.17 &   5.67 \\
+         85  &   1.00 &  0.09 &  11.43 \\
+         90  &   1.00 &  0.00 & \pminfty \\
+\end{tableobject}
+
+有关\verb|easyfloats|宏包的使用细节，请参阅其宏包使用说明书及其使用示
+例。本文档同时提供该宏包的仓库打包下载。       
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
